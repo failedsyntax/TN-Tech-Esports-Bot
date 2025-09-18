@@ -1,4 +1,5 @@
 import discord
+import os
 from discord.ext import commands
 
 class ReactionRoles(commands.Cog):
@@ -7,7 +8,7 @@ class ReactionRoles(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.channel_id = 380753007098200067
-        self.role_message_id = 0
+        self.role_message_id = os.getenv("MESSAGE_ID")
         self.emoji_to_role = {
             "<:RainbowSix:900234557498990622>": 846571945159032872,
             "<:Valorant:880879256551424070>": 700597533013180438,
@@ -30,6 +31,7 @@ class ReactionRoles(commands.Cog):
     @commands.command(name="rr_setup", hidden=True)
     @commands.is_owner()
     async def setup_reaction_message(self, ctx):
+
         thumbnail_embed = discord.Embed(
             color= 0x4B2680,
             url="https://images-ext-1.discordapp.net/external/XQ50yWcA6sQeMMHYdh9TCKSEujeh-hriTlZVcImcwVc/https/i.ibb.co/Jj3zTsr/ROLE-SELECT-2.png"
@@ -41,12 +43,19 @@ class ReactionRoles(commands.Cog):
         if target_channel is None:
             return
 
-        message = await target_channel.send(embed=thumbnail_embed)
+        try:
+            message = await target_channel.fetch_message(self.role_message_id)
+        except discord.NotFound:
+            print(f'Message with ID {self.role_message_id} not found! | Sending new original message!')
+            message = await target_channel.send(embed=thumbnail_embed)
 
-        for emoji_string in self.emoji_to_role.keys():
-            await message.add_reaction(emoji_string)
+            for emoji_string in self.emoji_to_role.keys():
+                await message.add_reaction(emoji_string)
 
-        self.role_message_id = message.id
+            self.role_message_id = message.id
+            await ctx.send(message=f"Please save the new message id to the Railway variable! {self.role_message_id}")
+        else:
+            await ctx.send(message=f"{message.author.mention}, the reaction role message already exists!")
 
     @commands.Cog.listener()
     async def on_raw_reaction_add(self, payload):
