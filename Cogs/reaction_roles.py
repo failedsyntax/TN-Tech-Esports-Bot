@@ -8,7 +8,7 @@ class ReactionRoles(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.channel_id = 380753007098200067
-        self.role_message_id = os.getenv("MESSAGE_ID")
+        self.role_message_id = int(os.getenv("MESSAGE_ID"))
         self.emoji_to_role = {
             "<:RainbowSix:900234557498990622>": 846571945159032872,
             "<:Valorant:880879256551424070>": 700597533013180438,
@@ -63,7 +63,7 @@ class ReactionRoles(commands.Cog):
     async def on_raw_reaction_add(self, payload):
         print(payload.message_id, self.role_message_id)
         print(payload.message_id == self.role_message_id)
-        if payload.message_id != self.role_message_id:
+        if int(payload.message_id) != self.role_message_id:
             return
 
         # Variables
