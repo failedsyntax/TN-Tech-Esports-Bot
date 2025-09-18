@@ -61,6 +61,7 @@ class ReactionRoles(commands.Cog):
 
     @commands.Cog.listener()
     async def on_raw_reaction_add(self, payload):
+        print(payload.message_id == self.role_message_id)
         if payload.message_id != self.role_message_id:
             return
 
