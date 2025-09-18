@@ -54,6 +54,8 @@ class ReactionRoles(commands.Cog):
 
             self.role_message_id = message.id
             await ctx.send(message=f"Please save the new message id to the Railway variable! {self.role_message_id}")
+        except Exception as e:
+            print(e)
         else:
             await ctx.send(message=f"{message.author.mention}, the reaction role message already exists!")
 
