@@ -1,4 +1,4 @@
-TOKEN = "MTQxNzk3NzQ1NTIxMzI4MTUxMg.G3WyeO.dDl1-zbJreN-qEWFeR28tludFwOsBOXH7R-92M"
+TOKEN = ""
 PREFIX = 'r!'
 
 import discord
