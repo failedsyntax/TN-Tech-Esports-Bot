@@ -1,11 +1,10 @@
-TOKEN = ""
-PREFIX = 'r!'
-
 import discord
 import os
 import asyncio
 from discord.ext import commands
 
+TOKEN = os.getenv("TOKEN")
+PREFIX = 'r!'
 intents = discord.Intents.all()
 bot = commands.Bot(command_prefix=PREFIX, intents=intents)
 
